@@ -1,6 +1,6 @@
 import argparse
 import json
-from main import add, remove, set_status, list_entries
+from .main import add, remove, set_status, list_entries
 
 FILE_PATH = "tasks.json"
 
@@ -11,7 +11,7 @@ def main():
     add_p = sub.add_parser("add", help="Adds an entry to the list of tasks.")
     remove_p = sub.add_parser("remove", help="Removes an entry from the list of tasks.")
     status_p = sub.add_parser("set-status", help="Changes the status of a task.")
-    list_p = sub.add_parser("list", help="Lists all entries.")
+    sub.add_parser("list", help="Lists all entries.")
 
     add_p.add_argument("description", type=str, help="Description of the task.")
     remove_p.add_argument("item_id", type=int, help="ID of the entry to be removed.")

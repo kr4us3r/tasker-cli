@@ -1,4 +1,3 @@
-from sys import exit
 from datetime import datetime
 
 def add(text: str, data: list) -> None:
