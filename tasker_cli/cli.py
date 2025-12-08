@@ -3,20 +3,20 @@ import os
 import json
 from .main import add, remove, set_status, list_entries
 
-if os.name == "posix":
-    path = os.getenv("XDG_DATA_HOME") + "/tasker_cli"
-elif os.name == "nt":
-    path = os.getenv("LOCALAPPDATA") + "/tasker_cli"
-else:
-    print("Unsupported crap system.")
-    exit(1)
-
-if not os.path.exists(path): 
-    os.mkdir(path)
-    
-FILE_PATH = path + "/tasks.json"
-
 def main():
+    if os.name == "posix":
+        path = os.getenv("XDG_DATA_HOME") + "/tasker_cli"
+    elif os.name == "nt":
+        path = os.getenv("LOCALAPPDATA") + "/tasker_cli"
+    else:
+        print("Unsupported crap system.")
+        exit(1)
+
+    if not os.path.exists(path): 
+        os.mkdir(path)
+        
+    file_path = path + "/tasks.json"
+
     parser = argparse.ArgumentParser(description="A wondrous tool for task management.")
     sub = parser.add_subparsers(dest="command", help="Available commands.")
 
@@ -39,10 +39,10 @@ def main():
 
     data = {}
     try:
-        with open(FILE_PATH, "r") as f:
+        with open(file_path, "r") as f:
             data = json.load(f)
     except:
-        with open(FILE_PATH, "w") as f:
+        with open(file_path, "w") as f:
             json.dump(data, f)
 
     if args.command == "add":
@@ -54,8 +54,8 @@ def main():
     elif args.command == "list":
         list_entries(data)
 
-    with open(FILE_PATH, "w") as f:
+    with open(file_path, "w") as f:
         json.dump(data, f, indent=2)
-    
+
 if __name__ == "__main__":
     main()
