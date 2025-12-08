@@ -1,8 +1,20 @@
 import argparse
+import os
 import json
 from .main import add, remove, set_status, list_entries
 
-FILE_PATH = "tasks.json"
+if os.name == "posix":
+    path = os.getenv("XDG_DATA_HOME") + "/tasker_cli"
+elif os.name == "nt":
+    path = os.getenv("LOCALAPPDATA") + "/tasker_cli"
+else:
+    print("Unsupported crap system.")
+    exit(1)
+
+if not os.path.exists(path): 
+    os.mkdir(path)
+    
+FILE_PATH = path + "/tasks.json"
 
 def main():
     parser = argparse.ArgumentParser(description="A wondrous tool for task management.")
@@ -14,10 +26,10 @@ def main():
     sub.add_parser("list", help="Lists all entries.")
 
     add_p.add_argument("description", type=str, help="Description of the task.")
-    remove_p.add_argument("item_id", type=int, help="ID of the entry to be removed.")
+    remove_p.add_argument("item_id", type=str, help="ID of the entry to be removed.")
     status_p.add_argument("status", choices=["to-do", "in-progress", "done"], type=str,
                           help="Status to set. Available values: 'to-do', 'in-progress', 'done'.")
-    status_p.add_argument("item_id", type=int, help="ID of the entry to change the status of.")
+    status_p.add_argument("item_id", type=str, help="ID of the entry to change the status of.")
 
     args = parser.parse_args()
 
@@ -25,7 +37,7 @@ def main():
         parser.print_help()
         exit(1)
 
-    data = []
+    data = {}
     try:
         with open(FILE_PATH, "r") as f:
             data = json.load(f)
