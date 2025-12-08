@@ -1,3 +1,20 @@
 [build-system]
 requires = ["setuptools >= 78.1.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "tasker-cli"
+authors = [
+    {name = "kr4us3r", email = "bakemonowa@gmail.com"},
+]
+description = "A wondrous tool for task management."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dynamic = ["version"]
+
+[project.scripts]
+tasker-cli = "tasker_cli.cli:main"
