@@ -1,6 +1,6 @@
 # Tasker CLI
 
-A simple CLI tool for managing tasks.
+A simple CLI tool for managing tasks. https://github.com/kr4us3r/tasker-cli
 
 ## Overview
 
@@ -69,6 +69,7 @@ Created at 2025-12-09 11:00. Last modified at 2025-12-09 11:15
 Tasks are stored in `tasks.json`:
 - **Linux**: `~/.local/share/tasker_cli/tasks.json`
 - **Windows**: `%LOCALAPPDATA%\tasker_cli\tasks.json`
+
 
 
 
