@@ -44,13 +44,8 @@ def list_entries(status: Status | None, data: dict[str, Task]) -> str:
     if not data:
         return "There are no entries."
     entries: list[str] = []
-    if status is not None:
-        for id, task in data.items():
-            if task["status"] == status:
-                entries.append(f"{id}: \"{task["description"]}\"\nStatus: {task["status"]}\
-                                \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
-    else:
-        for id, task in data.items():
+    for id, task in data.items():
+        if status is None or task["status"] == status:
             entries.append(f"{id}: \"{task["description"]}\"\nStatus: {task["status"]}\
                             \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
     if not entries:
