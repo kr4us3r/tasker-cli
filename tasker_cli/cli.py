@@ -1,7 +1,7 @@
 import argparse
 import os
 import json
-from .main import add, remove, set_status, list_entries
+from .main import add, remove, update, set_status, list_entries
 
 def main():
     if os.name == "posix":
@@ -22,15 +22,22 @@ def main():
 
     add_p = sub.add_parser("add", help="Adds an entry to the list of tasks.")
     remove_p = sub.add_parser("remove", help="Removes an entry from the list of tasks.")
+    update_p = sub.add_parser("update", help="Updates the description of a task.")
     status_p = sub.add_parser("set-status", help="Changes the status of a task.")
     list_p = sub.add_parser("list", help="Lists all entries.")
 
     add_p.add_argument("description", type=str, help="Description of the task.")
-    remove_p.add_argument("item_id", type=str, help="ID of the entry to be removed.")
+    remove_p.add_argument("item_id", type=int, help="ID of the entry to be removed.")
+
+    update_p.add_argument("item_id", type=int, help="ID of the entry to update the description of.")
+    update_p.add_argument("description", type=str, help="New description.")
+
+    status_p.add_argument("item_id", type=int, help="ID of the entry to change the status of.")
     status_p.add_argument("status", choices=["to-do", "in-progress", "done"], type=str,
                           help="Status to set. Available values: 'to-do', 'in-progress', 'done'.")
-    status_p.add_argument("item_id", type=str, help="ID of the entry to change the status of.")
-    list_p.add_argument("status", type=str, nargs="?", choices=["", "to-do", "in-progress", "done"])
+
+    list_p.add_argument("status", type=str, nargs="?", choices=["", "to-do", "in-progress", "done"],
+                        help="Status to filter the entries by.")
 
     args = parser.parse_args()
 
@@ -50,8 +57,10 @@ def main():
         add(args.description, data)
     elif args.command == "remove":
         remove(args.item_id, data)
+    elif args.command == "update":
+        update(args.item_id, args.description, data)
     elif args.command == "set-status":
-        set_status(args.status, args.item_id, data)
+        set_status(args.item_id, args.status, data)
     elif args.command == "list":
         list_entries(args.status, data)
 

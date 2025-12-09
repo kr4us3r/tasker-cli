@@ -9,19 +9,26 @@ def add(text: str, data: dict) -> None:
                  "updatedAt": time_fmt}
     print("Entry added successfully.")
 
-def remove(id: str, data: dict) -> None:
-    if id not in data:
+def remove(id: int, data: dict) -> None:
+    if str(id) not in data:
         print("No such entry.")
         return
-    del data[id]
+    del data[str(id)]
     print("The entry has been removed.")
-            
-def set_status(status: str, id: str, data: dict) -> None:
-    if id not in data:
+
+def update(id: int, text: str, data: dict) -> None:
+    if str(id) not in data:
         print("No such entry.")
         return
-    data[id]["status"] = status
-    data[id]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M")
+    data[str(id)]["description"] = text
+    print("Description updated successfully.")
+            
+def set_status(id: int, status: str, data: dict) -> None:
+    if str(id) not in data:
+        print("No such entry.")
+        return
+    data[str(id)]["status"] = status
+    data[str(id)]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M")
     print("Status has been updated.")
 
 def list_entries(status: str | None, data: dict) -> None:
