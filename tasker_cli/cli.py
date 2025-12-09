@@ -54,15 +54,15 @@ def main():
             json.dump(data, f)
 
     if args.command == "add":
-        add(args.description, data)
+        print(add(args.description, data))
     elif args.command == "remove":
-        remove(args.item_id, data)
+        print(remove(args.item_id, data))
     elif args.command == "update":
-        update(args.item_id, args.description, data)
+        print(update(args.item_id, args.description, data))
     elif args.command == "set-status":
-        set_status(args.item_id, args.status, data)
+        print(set_status(args.item_id, args.status, data))
     elif args.command == "list":
-        list_entries(args.status, data)
+        print(list_entries(args.status, data))
 
     with open(file_path, "w") as f:
         json.dump(data, f, indent=2)

@@ -1,49 +1,70 @@
 from datetime import datetime
+from typing import TypedDict
+from enum import Enum
 
-def add(text: str, data: dict) -> None:
+class Status(str, Enum):
+    TO_DO = "to-do"
+    IN_PROGRESS = "in-progress"
+    DONE = "done"
+
+class Task(TypedDict):
+    description: str
+    status: Status
+    created_at: str
+    updated_at: str
+
+def add(text: str, data: dict[int, Task]) -> str:
     id = int(max(data.keys(), default=0)) + 1
     time_fmt = datetime.now().strftime("%Y-%m-%d %H:%M")
-    data[id] = {"description": text,
-                 "status": "to-do",
-                 "createdAt": time_fmt,
-                 "updatedAt": time_fmt}
-    print("Entry added successfully.")
+    data[id] = Task(description=text, status=Status.TO_DO,
+                    created_at=time_fmt, updated_at=time_fmt)
+    return "Entry added successfully."
 
-def remove(id: int, data: dict) -> None:
+def remove(id: int, data: dict[int, Task]) -> str:
     if str(id) not in data:
-        print("No such entry.")
-        return
+        return "No such entry."
     del data[str(id)]
-    print("The entry has been removed.")
+    return "The entry has been removed."
 
-def update(id: int, text: str, data: dict) -> None:
+def update(id: int, text: str, data: dict[int, Task]) -> str:
     if str(id) not in data:
-        print("No such entry.")
-        return
+        return "No such entry."
     data[str(id)]["description"] = text
-    data[str(id)]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M")
-    print("Description updated successfully.")
+    data[str(id)]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
+    return "Description updated successfully."
             
-def set_status(id: int, status: str, data: dict) -> None:
+def set_status(id: int, status: str, data: dict[int, Task]) -> str:
     if str(id) not in data:
-        print("No such entry.")
-        return
-    data[str(id)]["status"] = status
-    data[str(id)]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M")
-    print("Status has been updated.")
+        return "No such entry."
+    
+    match status:
+        case "to-do":
+            data[str(id)]["status"] = Status.TO_DO
+        case "in-progress":
+            data[str(id)]["status"] = Status.IN_PROGRESS
+        case "done":
+            data[str(id)]["status"] = Status.DONE
 
-def list_entries(status: str | None, data: dict) -> None:
+    data[str(id)]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
+    return "Status has been updated."
+
+def list_entries(status: str | None, data: dict[int, Task]) -> str:
     if not data:
-        print("There are no entries.")
-        return
+        return "There are no entries."
 
+    entries: list[str] = []
     match status:
         case None:
-            for k, v in data.items():
-                print(f"{k}: \"{v["description"]}\"\nStatus: {v["status"]}\
-                    \nCreated at {v["createdAt"]}. Last modified at {v["updatedAt"]}\n")
-        case _:
-            for k, v in data.items():
-                if v["status"] == status:
-                    print(f"{k}: \"{v["description"]}\"\nStatus: {v["status"]}\
-                    \nCreated at {v["createdAt"]}. Last modified at {v["updatedAt"]}\n")
+            for id, task in data.items():
+                entries.append(f"{id}: \"{task["description"]}\"\nStatus: {task["status"]}\
+                    \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
+        case Status.TO_DO | Status.IN_PROGRESS | Status.DONE:
+            for id, task in data.items():
+                if task["status"] == status:
+                    entries.append(f"{id}: \"{task["description"]}\"\nStatus: {task["status"]}\
+                    \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
+
+    if not entries:
+        return "No such entries."
+    
+    return "\n\n".join(entries)
