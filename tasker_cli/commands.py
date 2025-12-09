@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import TypedDict
-from enum import Enum
+from enum import StrEnum
 
-class Status(str, Enum):
+class Status(StrEnum):
     TO_DO = "to-do"
     IN_PROGRESS = "in-progress"
     DONE = "done"
