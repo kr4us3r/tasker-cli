@@ -32,7 +32,7 @@ def update(id: int, text: str, data: dict[str, Task]) -> str:
     data[str(id)]["description"] = text
     data[str(id)]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
     return "Description updated successfully."
-            
+
 def set_status(id: int, status: Status, data: dict[str, Task]) -> str:
     if str(id) not in data:
         return "No such entry."
