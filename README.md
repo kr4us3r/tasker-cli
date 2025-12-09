@@ -27,7 +27,14 @@ tasker-cli add "Buy groceries"
 ```
 ### Listing Tasks
 ```
+tasker-cli list [status]
+```
+The [status] argument is optional and filters tasks by their status. If omitted, lists all tasks.
+```
 tasker-cli list
+tasker-cli list to-do
+tasker-cli list in-progress
+tasker-cli list done
 ```
 Example output:
 ```
@@ -51,3 +58,4 @@ tasker-cli remove 2
 Tasks are stored in `tasks.json`:
 - **Linux/macOS**: `~/.local/share/tasker_cli/tasks.json`
 - **Windows**: `%LOCALAPPDATA%\tasker_cli\tasks.json`
+
