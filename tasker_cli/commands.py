@@ -40,23 +40,19 @@ def set_status(id: int, status: Status, data: dict[str, Task]) -> str:
     data[str(id)]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
     return "Status has been updated."
 
-def list_entries(status: str | None, data: dict[str, Task]) -> str:
+def list_entries(status: Status | None, data: dict[str, Task]) -> str:
     if not data:
         return "There are no entries."
-
     entries: list[str] = []
-    match status:
-        case None:
-            for id, task in data.items():
+    if status is not None:
+        for id, task in data.items():
+            if task["status"] == status:
                 entries.append(f"{id}: \"{task["description"]}\"\nStatus: {task["status"]}\
-                    \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
-        case Status.TO_DO | Status.IN_PROGRESS | Status.DONE:
-            for id, task in data.items():
-                if task["status"] == status:
-                    entries.append(f"{id}: \"{task["description"]}\"\nStatus: {task["status"]}\
-                    \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
-
+                                \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
+    else:
+        for id, task in data.items():
+            entries.append(f"{id}: \"{task["description"]}\"\nStatus: {task["status"]}\
+                            \nCreated at {task["created_at"]}. Last modified at {task["updated_at"]}")
     if not entries:
         return "No such entries."
-    
     return "\n\n".join(entries)

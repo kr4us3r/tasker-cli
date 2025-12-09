@@ -35,7 +35,7 @@ def main():
     status_p.add_argument("status", choices=["to-do", "in-progress", "done"], type=Status,
                           help="Status to set. Available values: 'to-do', 'in-progress', 'done'.")
 
-    list_p.add_argument("status", type=str, nargs="?", choices=["", "to-do", "in-progress", "done"],
+    list_p.add_argument("status", type=Status, nargs="?", choices=["", "to-do", "in-progress", "done"],
                         help="Status to filter the entries by.")
 
     args = parser.parse_args()
