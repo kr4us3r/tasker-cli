@@ -47,6 +47,3 @@ def list_entries(status: str | None, data: dict) -> None:
                 if v["status"] == status:
                     print(f"{k}: \"{v["description"]}\"\nStatus: {v["status"]}\
                     \nCreated at {v["createdAt"]}. Last modified at {v["updatedAt"]}\n")
-            
-
-    

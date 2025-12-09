@@ -1,7 +1,7 @@
 import argparse
 import os
 import json
-from .main import add, remove, update, set_status, list_entries
+from .commands import add, remove, update, set_status, list_entries
 
 def main():
     if os.name == "posix":
