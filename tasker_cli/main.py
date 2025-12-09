@@ -21,6 +21,7 @@ def update(id: int, text: str, data: dict) -> None:
         print("No such entry.")
         return
     data[str(id)]["description"] = text
+    data[str(id)]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M")
     print("Description updated successfully.")
             
 def set_status(id: int, status: str, data: dict) -> None:
