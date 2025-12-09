@@ -13,42 +13,34 @@ class Task(TypedDict):
     created_at: str
     updated_at: str
 
-def add(text: str, data: dict[int, Task]) -> str:
+def add(text: str, data: dict[str, Task]) -> str:
     id = int(max(data.keys(), default=0)) + 1
     time_fmt = datetime.now().strftime("%Y-%m-%d %H:%M")
     data[id] = Task(description=text, status=Status.TO_DO,
                     created_at=time_fmt, updated_at=time_fmt)
     return "Entry added successfully."
 
-def remove(id: int, data: dict[int, Task]) -> str:
+def remove(id: int, data: dict[str, Task]) -> str:
     if str(id) not in data:
         return "No such entry."
     del data[str(id)]
     return "The entry has been removed."
 
-def update(id: int, text: str, data: dict[int, Task]) -> str:
+def update(id: int, text: str, data: dict[str, Task]) -> str:
     if str(id) not in data:
         return "No such entry."
     data[str(id)]["description"] = text
     data[str(id)]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
     return "Description updated successfully."
             
-def set_status(id: int, status: str, data: dict[int, Task]) -> str:
+def set_status(id: int, status: Status, data: dict[str, Task]) -> str:
     if str(id) not in data:
         return "No such entry."
-    
-    match status:
-        case "to-do":
-            data[str(id)]["status"] = Status.TO_DO
-        case "in-progress":
-            data[str(id)]["status"] = Status.IN_PROGRESS
-        case "done":
-            data[str(id)]["status"] = Status.DONE
-
+    data[str(id)]["status"] = status
     data[str(id)]["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M")
     return "Status has been updated."
 
-def list_entries(status: str | None, data: dict[int, Task]) -> str:
+def list_entries(status: str | None, data: dict[str, Task]) -> str:
     if not data:
         return "There are no entries."
 
