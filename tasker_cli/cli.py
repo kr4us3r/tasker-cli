@@ -23,13 +23,14 @@ def main():
     add_p = sub.add_parser("add", help="Adds an entry to the list of tasks.")
     remove_p = sub.add_parser("remove", help="Removes an entry from the list of tasks.")
     status_p = sub.add_parser("set-status", help="Changes the status of a task.")
-    sub.add_parser("list", help="Lists all entries.")
+    list_p = sub.add_parser("list", help="Lists all entries.")
 
     add_p.add_argument("description", type=str, help="Description of the task.")
     remove_p.add_argument("item_id", type=str, help="ID of the entry to be removed.")
     status_p.add_argument("status", choices=["to-do", "in-progress", "done"], type=str,
                           help="Status to set. Available values: 'to-do', 'in-progress', 'done'.")
     status_p.add_argument("item_id", type=str, help="ID of the entry to change the status of.")
+    list_p.add_argument("status", type=str, nargs="?", choices=["", "to-do", "in-progress", "done"])
 
     args = parser.parse_args()
 
@@ -52,7 +53,7 @@ def main():
     elif args.command == "set-status":
         set_status(args.status, args.item_id, data)
     elif args.command == "list":
-        list_entries(data)
+        list_entries(args.status, data)
 
     with open(file_path, "w") as f:
         json.dump(data, f, indent=2)

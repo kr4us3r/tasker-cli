@@ -24,10 +24,21 @@ def set_status(status: str, id: str, data: dict) -> None:
     data[id]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M")
     print("Status has been updated.")
 
-def list_entries(data: dict) -> None:
+def list_entries(status: str | None, data: dict) -> None:
     if not data:
         print("There are no entries.")
         return
-    for k, v in data.items():
-        print(f"{k}: \"{v["description"]}\"\nStatus: {v["status"]}\
-              \nCreated at {v["createdAt"]}. Last modified at {v["updatedAt"]}\n")
+
+    match status:
+        case None:
+            for k, v in data.items():
+                print(f"{k}: \"{v["description"]}\"\nStatus: {v["status"]}\
+                    \nCreated at {v["createdAt"]}. Last modified at {v["updatedAt"]}\n")
+        case _:
+            for k, v in data.items():
+                if v["status"] == status:
+                    print(f"{k}: \"{v["description"]}\"\nStatus: {v["status"]}\
+                    \nCreated at {v["createdAt"]}. Last modified at {v["updatedAt"]}\n")
+            
+
+    
