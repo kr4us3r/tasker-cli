@@ -12,7 +12,7 @@ A simple CLI tool for managing tasks. Idea by https://roadmap.sh/projects/task-t
 
 ## Installation
 
-Tasker CLI requires Python >=3.9.
+Tasker CLI requires Python >=3.11.
 ```
 git clone https://github.com/kr4us3r/tasker-cli.git
 cd tasker-cli
@@ -69,6 +69,7 @@ Created at 2025-12-09 11:00. Last modified at 2025-12-09 11:15
 Tasks are stored in `tasks.json`:
 - **Linux**: `~/.local/share/tasker_cli/tasks.json`
 - **Windows**: `%LOCALAPPDATA%\tasker_cli\tasks.json`
+
 
 
 
